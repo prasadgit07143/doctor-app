@@ -33,7 +33,23 @@ export async function POST(req) {
   try {
     const db = await connectToDatabase();
     const doctorData = await req.json();
-
+    const doctorId = doctorData.doctorId;
+    console.log(doctorData.doctorId);
+    if (!doctorId) {
+      return NextResponse.json(
+        { error: "DoctorId is required" },
+        { status: 400 }
+      );
+    }
+    const parsedDoctorId = Number.parseInt(doctorId);
+    const doctor = await db
+      .collection("doctor")
+      .findOne({ doctorId: parsedDoctorId });
+    if (doctor)
+      return NextResponse.json(
+        { error: "Doctor already exists" },
+        { status: 400 }
+      );
     const newDoctor = new Doctor(doctorData);
     const validationError = newDoctor.validateSync();
     if (validationError) {

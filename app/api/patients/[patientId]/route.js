@@ -83,7 +83,7 @@ export async function DELETE(req, { params }) {
       return NextResponse.json({ error: "Patient not found" }, { status: 404 });
     }
     return NextResponse.json(
-      { message: "patient deleted successfully" },
+      { message: "Patient deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
