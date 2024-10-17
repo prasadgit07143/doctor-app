@@ -16,6 +16,7 @@ const Login = () => {
     const doctors = await response.json();
     for (const doctor of doctors) {
       if (doctor.email === email && doctor.password === password) {
+        localStorage.setItem("loggedInDoctor", JSON.stringify(doctor));
         router.push("http://localhost:3000/doctors/home");
         return;
       }

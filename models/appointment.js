@@ -35,9 +35,25 @@ const AppointmentSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Confirmed", "Cancelled"],
+      enum: ["Pending", "Confirmed", "Cancelled", "Completed"],
       default: "Pending",
       index: true,
+    },
+    fees: {
+      type: Number,
+      required: true,
+      validate: {
+        validator: function (v) {
+          return v >= 0;
+        },
+        message: (props) => `${props.value} is not a valid fee!`,
+      },
+      default: 500,
+    },
+    issue: {
+      type: String,
+      required: true,
+      default: "Negotiable",
     },
   },
   { timestamps: true }

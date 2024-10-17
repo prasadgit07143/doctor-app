@@ -1,7 +1,7 @@
 import React from "react";
 import "@/styles/globals.css";
 
-const RootLayout = ({ children }) => {
+const LoginLayout = ({ children }) => {
   return (
     <html lang="en-US">
       <body>{children}</body>
@@ -9,4 +9,4 @@ const RootLayout = ({ children }) => {
   );
 };
 
-export default RootLayout;
+export default LoginLayout;

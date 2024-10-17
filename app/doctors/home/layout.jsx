@@ -3,15 +3,16 @@ import NavBar from "../../components/NavBar";
 import "@/styles/globals.css";
 import Footer from "../../components/Footer";
 
-const RootLayout = ({ children }) => {
+const HomeLayout = ({ children }) => {
   return (
     <html lang="en-US">
       <body>
         <NavBar />
+        {children}
         <Footer />
       </body>
     </html>
   );
 };
 
-export default RootLayout;
+export default HomeLayout;

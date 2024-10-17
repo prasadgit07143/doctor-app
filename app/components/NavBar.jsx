@@ -1,4 +1,5 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 import React from "react";
 
@@ -80,7 +81,7 @@ const NavBar = () => {
                   <ul className="py-1" role="none">
                     <li>
                       <Link
-                        href="#"
+                        href="./home"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
@@ -131,7 +132,7 @@ const NavBar = () => {
           <ul className="space-y-2 font-medium">
             <li>
               <Link
-                href="#"
+                href="/doctors/home"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -149,7 +150,7 @@ const NavBar = () => {
             </li>
             <li>
               <Link
-                href="#"
+                href="/doctors/home/appointments"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -222,6 +223,27 @@ const NavBar = () => {
                   <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">History</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="#"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 32 32"
+                  id="profile"
+                >
+                  <g>
+                    <circle cx="16" cy="6.96" r="6" />
+                    <path d="M30.86,26.84a15.07,15.07,0,0,0-4.11-7.47A12.47,12.47,0,0,0,25.13,18,15,15,0,0,0,16,15,15.24,15.24,0,0,0,5.24,19.37a15.07,15.07,0,0,0-4.11,7.47,3.42,3.42,0,0,0,.69,2.88A3.52,3.52,0,0,0,4.58,31H27.42a3.52,3.52,0,0,0,2.75-1.32A3.42,3.42,0,0,0,30.86,26.84Z" />
+                  </g>
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Profile</span>
               </Link>
             </li>
             <li>
