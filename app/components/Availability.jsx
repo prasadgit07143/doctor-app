@@ -104,6 +104,7 @@ const Availability = () => {
         onSet={() => handleSetData("availableSlots")}
         gridCols={4}
       />
+      <UnavailableSection />
     </section>
   );
 };
@@ -179,6 +180,80 @@ const TimeSection = ({ startTime, endTime, onChange, onSet }) => (
     </div>
   </div>
 );
+
+const UnavailableSection = () => {
+  const [dateFields, setDateFields] = useState([{ id: 0, value: "" }]);
+  const [unavailableDates, setUnavailableDates] = useState([]);
+
+  const addDateField = () => {
+    setDateFields([...dateFields, { id: dateFields.length, value: "" }]);
+  };
+
+  const handleDateChange = (id, value) => {
+    const updatedFields = dateFields.map((field) =>
+      field.id === id ? { ...field, value } : field
+    );
+    setDateFields(updatedFields);
+  };
+
+  const handleSetUnavailableDates = async () => {
+    const newDates = dateFields.map((field) => field.value).filter(Boolean);
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok)
+        throw new Error("Failed to fetch current unavailable dates");
+      const currentData = await response.json();
+      const updatedDates = [
+        ...new Set([...currentData.unavailableDates, ...newDates]),
+      ];
+      const updateResponse = await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ unavailableDates: updatedDates }),
+      });
+      if (!updateResponse.ok)
+        throw new Error("Failed to update unavailable dates");
+      setUnavailableDates(updatedDates);
+      alert("Unavailable dates updated successfully!");
+      setDateFields([{ id: 0, value: "" }]);
+    } catch (error) {
+      console.error("Error updating unavailable dates:", error);
+      alert("Failed to update unavailable dates. Please try again.");
+    }
+  };
+
+  return (
+    <div className="time-bounds-selection-wrapper mt-10">
+      <p className="text-xl font-semibold">Select Dates of Unavailability</p>
+      <div className="relative my-3 border-2 border-gray-300 rounded-md p-5 bg-gray-700 text-white">
+        {dateFields.map((field) => (
+          <div key={field.id} className="mb-2">
+            <input
+              type="date"
+              name={`date-${field.id}`}
+              id={`date-${field.id}`}
+              value={field.value}
+              onChange={(e) => handleDateChange(field.id, e.target.value)}
+              className="text-black rounded-sm py-1 text-sm mr-2"
+            />
+          </div>
+        ))}
+        <button
+          onClick={addDateField}
+          className="inline-flex items-center px-7 py-1 text-sm font-medium text-center text-white bg-green-700 rounded-sm hover:bg-green-800 focus:outline-none dark:bg-green-600 dark:hover:bg-green-700"
+        >
+          Add
+        </button>
+        <button
+          onClick={handleSetUnavailableDates}
+          className="absolute right-3 top-[50%] translate-y-[-50%] inline-flex items-center px-7 py-3 text-sm font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700"
+        >
+          Set
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const TimeInput = ({ label, name, value, onChange }) => (
   <div className="border-r-2 pr-10">

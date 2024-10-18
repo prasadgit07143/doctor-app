@@ -188,8 +188,11 @@ const Table = ({ patients, appointments }) => {
           </tr>
         </thead>
         <tbody>
-          {patients.map((patient) => (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          {patients.map((patient, index) => (
+            <tr
+              key={index}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
               <td className="px-6 py-4">{patient.name}</td>
               <td className="px-6 py-4">{patient.email}</td>
               <td className="px-6 py-4">{patient.age}</td>
