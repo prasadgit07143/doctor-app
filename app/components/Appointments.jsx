@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
+import AppointmentButtons from "./AppointmentButtons";
 
 const AppointmentCard = React.memo(
   ({ patient, appointment, onStatusChange }) => {
@@ -51,21 +52,19 @@ const AppointmentCard = React.memo(
 
     return (
       <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition">
-        <Link href="#">
-          <h5 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
-            <Image
-              src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
-              className="float-left mr-3"
-              height="32"
-              width="32"
-              alt="1"
-            />
-            {patient.name} <br />
-            <span className="text-sm ml-11 text-gray-700 dark:text-gray-400">
-              {patient.email}
-            </span>
-          </h5>
-        </Link>
+        <h5 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+          <Image
+            src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+            className="float-left mr-3"
+            height="32"
+            width="32"
+            alt="1"
+          />
+          {patient.name} <br />
+          <span className="text-sm ml-11 text-gray-700 dark:text-gray-400">
+            {patient.email}
+          </span>
+        </h5>
         <p className="mb-1 font-normal text-gray-700 dark:text-gray-400">
           {patient.gender} | {patient.age}
         </p>
@@ -89,22 +88,12 @@ const AppointmentCard = React.memo(
           {appointment.status}
         </p>
         {appointment.status === "Pending" && (
-          <>
-            <button
-              onClick={() => updateAppointmentStatus("Confirmed")}
-              disabled={isUpdating}
-              className="inline-flex items-center px-5 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-sm hover:bg-green-800 focus:outline-none dark:bg-green-600 dark:hover:bg-green-700 mr-3 disabled:opacity-50"
-            >
-              Confirm
-            </button>
-            <button
-              onClick={() => updateAppointmentStatus("Cancelled")}
-              disabled={isUpdating}
-              className="inline-flex items-center px-5 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-sm hover:bg-red-800 focus:outline-none dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50"
-            >
-              Cancel
-            </button>
-          </>
+          <AppointmentButtons
+            appointment={appointment}
+            updateAppointmentStatus={updateAppointmentStatus}
+            isUpdating={isUpdating}
+            onStatusChange={onStatusChange}
+          />
         )}
       </div>
     );
@@ -241,12 +230,17 @@ const Appointments = () => {
             </p>
           )}
           {patientsWithAppointments.map(({ patient, appointment }) => (
-            <AppointmentCard
-              patient={patient}
-              appointment={appointment}
+            <Link
+              href={`/doctors/home/appointments/${appointment.appointmentId}`}
               key={appointment.appointmentId}
-              onStatusChange={handleStatusChange}
-            />
+            >
+              <AppointmentCard
+                patient={patient}
+                appointment={appointment}
+                key={appointment.appointmentId}
+                onStatusChange={handleStatusChange}
+              />
+            </Link>
           ))}
         </div>
       </div>

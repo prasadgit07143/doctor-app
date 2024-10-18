@@ -62,12 +62,6 @@ const PatientSchema = new Schema(
       type: String,
       default: "/default-profile.jpg",
     },
-    appointments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Appointment",
-      },
-    ],
   },
   {
     timestamps: true,

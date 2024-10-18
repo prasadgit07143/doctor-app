@@ -210,6 +210,30 @@ const NavBar = () => {
             </li>
             <li>
               <Link
+                href="/doctors/home/availability"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  id="tick"
+                  width="512"
+                  height="512"
+                  x="0"
+                  y="0"
+                  fill="currentColor"
+                  version="1.1"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm-32.1 281.7c-2.4 2.4-5.8 4.4-8.8 4.4s-6.4-2.1-8.9-4.5l-56-56 17.8-17.8 47.2 47.2L340 177.3l17.5 18.1-133.6 134.3z" />
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  My Availability
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >

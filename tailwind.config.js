@@ -3,7 +3,9 @@ export const content = [
   "./pages/**/*.{js,ts,jsx,tsx,mdx}",
   "./components/**/*.{js,ts,jsx,tsx,mdx}",
   "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  "./node_modules/flowbite/**/*.js",
 ];
+
 export const theme = {
   extend: {
     colors: {
@@ -23,4 +25,5 @@ export const theme = {
     },
   },
 };
-export const plugins = [];
+export const plugins = [require("flowbite/plugin")];
+export const darkMode = "class";
