@@ -6,10 +6,7 @@ let client;
 
 async function connectToDatabase() {
   if (!client) {
-    client = new MongoClient(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
   }
   return client.db("hms");

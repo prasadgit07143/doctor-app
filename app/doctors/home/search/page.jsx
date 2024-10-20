@@ -1,7 +1,12 @@
+import SearchDoctors from "@/app/components/SearchDoctors";
 import React from "react";
 
 const SearchPage = () => {
-  return <div>SearchPage</div>;
+  return (
+    <>
+      <SearchDoctors />
+    </>
+  );
 };
 
 export default SearchPage;

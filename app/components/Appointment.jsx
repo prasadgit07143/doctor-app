@@ -1,5 +1,6 @@
 import React from "react";
 import AppointmentButtons from "@/app/components/AppointmentButtons";
+import Link from "next/link";
 
 const Appointment = ({ patient, appointment }) => {
   return (
@@ -74,6 +75,55 @@ const Appointment = ({ patient, appointment }) => {
       </div>
       {appointment.status === "Pending" && (
         <AppointmentButtons appointment={appointment} />
+      )}
+      {(appointment.status === "Confirmed" ||
+        appointment.status === "Completed") && (
+        <>
+          <div className="prescription-details-wrapper">
+            <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Prescription Details
+            </h5>
+            <hr className="mb-5" />
+            {appointment.status === "Confirmed" && (
+              <Link
+                href={`/doctors/home/appointments/${appointment.appointmentId}/prescription/new`}
+                target="_blank"
+                className="inline-flex mr-6 items-center px-5 py-2 text-md font-medium text-center text-white bg-red-700 rounded-sm hover:bg-red-800 focus:outline-none dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50"
+              >
+                Generate Prescription
+              </Link>
+            )}
+            <Link
+              href={`/doctors/home/appointments/${appointment.appointmentId}/prescription`}
+              target="_blank"
+              className="inline-flex items-center px-5 py-2 text-md font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
+            >
+              View Prescription
+            </Link>
+          </div>
+          <div className="lab-test-details-wrapper mt-10">
+            <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Lab Test Details
+            </h5>
+            <hr className="mb-5" />
+            {appointment.status === "Confirmed" && (
+              <Link
+                href={`/doctors/home/appointments/${appointment.appointmentId}/prescription/new`}
+                target="_blank"
+                className="inline-flex mr-6 items-center px-5 py-2 text-md font-medium text-center text-white bg-red-700 rounded-sm hover:bg-red-800 focus:outline-none dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50"
+              >
+                Order Lab Test
+              </Link>
+            )}
+            <Link
+              href={`/doctors/home/appointments/${appointment.appointmentId}/prescription`}
+              target="_blank"
+              className="inline-flex items-center px-5 py-2 text-md font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
+            >
+              View Ordered Tests
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );

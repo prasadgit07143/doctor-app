@@ -83,6 +83,7 @@ const Availability = () => {
 
   return (
     <section className="appointments-section ml-[300px] mt-[100px] min-h-[100vh] mr-10">
+      <h1 className="text-3xl mb-5 font-semibold">Availability Info</h1>
       <SelectionSection
         title="Select Day"
         items={allDays}
@@ -121,7 +122,7 @@ const SelectionSection = ({
     <p className="text-xl font-semibold">{title}</p>
     <div
       className={`relative ${
-        gridCols ? `grid grid-cols-${gridCols}` : "flex flex-row"
+        gridCols ? `grid grid-cols-${gridCols}` : "flex flex-row flex-wrap"
       } items-center gap-5 my-3 border-2 border-gray-300 rounded-md p-5 bg-gray-700 text-white`}
     >
       {items.map((item) => (

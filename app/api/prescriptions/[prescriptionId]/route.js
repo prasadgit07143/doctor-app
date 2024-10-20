@@ -14,34 +14,34 @@ async function connectToDatabase() {
 export async function GET(req, { params }) {
   try {
     const db = await connectToDatabase();
-    const appointmentId = params.appointmentId;
-    if (!appointmentId) {
+    const prescriptionId = params.prescriptionId;
+    if (!prescriptionId) {
       return NextResponse.json(
-        { error: "AppointmentId is required" },
+        { error: "PrescriptionId is required" },
         { status: 400 }
       );
     }
-    const parsedAppointmentId = Number.parseInt(appointmentId);
-    if (isNaN(parsedAppointmentId)) {
+    const parsedPrescriptionId = Number.parseInt(prescriptionId);
+    if (isNaN(parsedPrescriptionId)) {
       return NextResponse.json(
-        { error: "Invalid appointmentId" },
+        { error: "Invalid prescriptionId" },
         { status: 400 }
       );
     }
-    const appointment = await db
-      .collection("appointment")
-      .findOne({ appointmentId: parsedAppointmentId });
-    if (!appointment) {
+    const prescription = await db
+      .collection("prescription")
+      .findOne({ prescriptionId: parsedPrescriptionId });
+    if (!prescription) {
       return NextResponse.json(
-        { error: "Appointment not found" },
+        { error: "Prescription not found" },
         { status: 404 }
       );
     }
-    return NextResponse.json(appointment);
+    return NextResponse.json(prescription);
   } catch (error) {
-    console.error("Error fetching appointment:", error);
+    console.error("Error fetching prescription:", error);
     return NextResponse.json(
-      { error: "An error occurred while fetching appointment" },
+      { error: "An error occurred while fetching prescription" },
       { status: 500 }
     );
   }
@@ -50,31 +50,31 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   try {
     const db = await connectToDatabase();
-    const appointmentId = Number.parseInt(params.appointmentId);
-    if (isNaN(appointmentId)) {
+    const prescriptionId = Number.parseInt(params.prescriptionId);
+    if (isNaN(prescriptionId)) {
       return NextResponse.json(
-        { error: "Invalid appointmentId" },
+        { error: "Invalid prescriptionId" },
         { status: 400 }
       );
     }
     const updateData = await req.json();
     const result = await db
-      .collection("appointment")
-      .updateOne({ appointmentId }, { $set: updateData });
+      .collection("prescription")
+      .updateOne({ prescriptionId }, { $set: updateData });
     if (result.matchedCount === 0) {
       return NextResponse.json(
-        { error: "Appointment not found" },
+        { error: "Prescription not found" },
         { status: 404 }
       );
     }
     return NextResponse.json(
-      { message: "Appointment updated successfully" },
+      { message: "Prescription updated successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating appointment:", error);
+    console.error("Error updating prescription:", error);
     return NextResponse.json(
-      { error: "An error occurred while updating a appointment" },
+      { error: "An error occurred while updating a prescription" },
       { status: 500 }
     );
   }
@@ -83,30 +83,30 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const db = await connectToDatabase();
-    const appointmentId = Number.parseInt(params.appointmentId);
-    if (isNaN(appointmentId)) {
+    const prescriptionId = Number.parseInt(params.prescriptionId);
+    if (isNaN(prescriptionId)) {
       return NextResponse.json(
-        { error: "Invalid appointmentId" },
+        { error: "Invalid prescriptionId" },
         { status: 400 }
       );
     }
     const result = await db
-      .collection("appointment")
-      .deleteOne({ appointmentId });
+      .collection("prescription")
+      .deleteOne({ prescriptionId });
     if (result.deletedCount === 0) {
       return NextResponse.json(
-        { error: "Appointment not found" },
+        { error: "Prescription not found" },
         { status: 404 }
       );
     }
     return NextResponse.json(
-      { message: "Appointment deleted successfully" },
+      { message: "Prescription deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting appointment:", error);
+    console.error("Error deleting prescription:", error);
     return NextResponse.json(
-      { error: "An error occurred while deleting a appointment" },
+      { error: "An error occurred while deleting a prescription" },
       { status: 500 }
     );
   }
