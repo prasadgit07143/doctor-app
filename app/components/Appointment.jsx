@@ -108,7 +108,7 @@ const Appointment = ({ patient, appointment }) => {
             <hr className="mb-5" />
             {appointment.status === "Confirmed" && (
               <Link
-                href={`/doctors/home/appointments/${appointment.appointmentId}/prescription/new`}
+                href={`/doctors/home/appointments/${appointment.appointmentId}/labtest/new`}
                 target="_blank"
                 className="inline-flex mr-6 items-center px-5 py-2 text-md font-medium text-center text-white bg-red-700 rounded-sm hover:bg-red-800 focus:outline-none dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50"
               >
@@ -116,7 +116,7 @@ const Appointment = ({ patient, appointment }) => {
               </Link>
             )}
             <Link
-              href={`/doctors/home/appointments/${appointment.appointmentId}/prescription`}
+              href={`/doctors/home/appointments/${appointment.appointmentId}/labtest`}
               target="_blank"
               className="inline-flex items-center px-5 py-2 text-md font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
             >
