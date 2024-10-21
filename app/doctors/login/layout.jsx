@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 
 const LoginLayout = ({ children }) => {
   return (
-    <html lang="en-US">
+    <html lang="en-US" className="dark">
       <body>{children}</body>
     </html>
   );
