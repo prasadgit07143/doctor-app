@@ -3,6 +3,7 @@
 import Cookies from "js-cookie";
 import React from "react";
 import { useState, useEffect } from "react";
+import SignOutButton from "./SignOutButton";
 
 const Profile = () => {
   const [doctor, setDoctor] = useState({});
@@ -83,6 +84,9 @@ const Profile = () => {
                 </div>
               </div>
             )}
+            <SignOutButton className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm w-full sm:w-auto px-10 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5">
+              Sign Out
+            </SignOutButton>
           </div>
         </div>
       </div>

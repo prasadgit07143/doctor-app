@@ -14,10 +14,13 @@ const handleSignOut = ({ router }) => {
   window.location.href = "/doctors/login";
 };
 
-const SignOutButton = ({ children }) => {
+const SignOutButton = ({ children, className = null }) => {
   const router = useRouter();
   return (
-    <button onClick={() => handleSignOut({ router: router })}>
+    <button
+      className={className && className}
+      onClick={() => handleSignOut({ router: router })}
+    >
       {children}
     </button>
   );
