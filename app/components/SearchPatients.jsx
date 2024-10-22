@@ -2,47 +2,59 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 
-const SearchDoctors = () => {
+const SearchPatients = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [doctors, setDoctors] = useState([]);
+  const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchPatients = async () => {
+      const doctorId = JSON.parse(localStorage.getItem("doctor")).doctorId;
       try {
-        const response = await fetch("/api/doctors");
-        if (!response.ok) {
+        const response = await fetch("/api/patients");
+        const appointmentsResponse = await fetch(
+          `/api/appointments/byDoctor/${doctorId}`
+        );
+        if (!response.ok || !appointmentsResponse) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setDoctors(data);
+        const appointmentsData = await appointmentsResponse.json();
+        const patients_ = [];
+        for (let patient of data) {
+          for (let appointment of appointmentsData) {
+            if (patient.patientId === appointment.patientId) {
+              patients_.push(patient);
+              break;
+            }
+          }
+        }
+        setPatients(patients_);
       } catch (err) {
         console.error(err);
       }
     };
 
-    fetchDoctors();
+    fetchPatients();
   }, []);
 
   const handleSearch = useCallback((e) => {
     e.preventDefault();
   }, []);
 
-  const filteredDoctors = useMemo(() => {
-    if (searchTerm.trim() === "") return doctors;
+  const filteredPatients = useMemo(() => {
+    if (searchTerm.trim() === "") return patients;
 
     const lowerSearchTerm = searchTerm.toLowerCase();
-    return doctors.filter(
-      (doctor) =>
-        doctor.name.toLowerCase().includes(lowerSearchTerm) ||
-        doctor.specialization.toLowerCase().includes(lowerSearchTerm)
+    return patients.filter((patient) =>
+      patient.name.toLowerCase().includes(lowerSearchTerm)
     );
-  }, [doctors, searchTerm]);
+  }, [patients, searchTerm]);
 
   return (
     <section className="appointments-section ml-[300px] mt-[100px] min-h-[100vh] mr-10">
       <div className="flex flex-col min-h-screen w-full">
         <div className="flex-grow p-4 w-full">
-          <h1 className="text-3xl mb-5 font-semibold">Search Doctors</h1>
+          <h1 className="text-3xl mb-5 font-semibold">Search Patients</h1>
           <form className="max-w-md min-w-[100%]" onSubmit={handleSearch}>
             <label
               htmlFor="default-search"
@@ -74,20 +86,20 @@ const SearchDoctors = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search Doctors..."
+                placeholder="Search patients..."
               />
             </div>
           </form>
 
-          <div className="doctors-wrapper">
-            <div className="doctor-wrapper">
-              {filteredDoctors.length > 0 && (
-                <p className="text-xl my-7 font-semibold">List of Doctors</p>
+          <div className="patients-wrapper">
+            <div className="patient-wrapper">
+              {filteredPatients.length > 0 && (
+                <p className="text-xl my-7 font-semibold">List of Patients</p>
               )}
               <ul className="mt-4">
-                {filteredDoctors.length > 0 ? (
-                  filteredDoctors.map((doctor) => (
-                    <li key={doctor._id} className="my-5">
+                {filteredPatients.length > 0 ? (
+                  filteredPatients.map((patient) => (
+                    <li key={patient._id} className="my-5">
                       <div className="block max-w-full p-6 bg-white rounded-sm shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-blue-700 dark:hover:bg-gray-700 border-l-8 border-blue-500">
                         <Image
                           src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
@@ -97,27 +109,23 @@ const SearchDoctors = () => {
                           alt="1"
                         />
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                          {doctor.name}
+                          {patient.name}
                         </h5>
                         <div className="mt-5">
                           <p className="font-normal text-gray-700 dark:text-gray-400">
                             <span className="text-white">Email:</span>{" "}
-                            {doctor.email}
-                          </p>
-                          <p className="font-normal text-gray-700 dark:text-gray-400">
-                            <span className="text-white">Specialization:</span>{" "}
-                            {doctor.specialization}
+                            {patient.email}
                           </p>
                           <p className="font-normal text-gray-700 dark:text-gray-400">
                             <span className="text-white">Contact:</span>{" "}
-                            {doctor.contact}
+                            {patient.contact}
                           </p>
                         </div>
                       </div>
                     </li>
                   ))
                 ) : (
-                  <p>No doctors found.</p>
+                  <p>No patients found.</p>
                 )}
               </ul>
             </div>
@@ -128,4 +136,4 @@ const SearchDoctors = () => {
   );
 };
 
-export default SearchDoctors;
+export default SearchPatients;

@@ -32,6 +32,7 @@ const LabtestSchema = new Schema(
     status: {
       type: String,
       default: "Pending",
+      index: true,
     },
     result: {
       type: String,
@@ -50,7 +51,13 @@ const LabtestSchema = new Schema(
   { timestamps: true }
 );
 
-LabtestSchema.index({ labtestId: 1, doctorId: 1, patientId: 1, testType: 1 });
+LabtestSchema.index({
+  labtestId: 1,
+  doctorId: 1,
+  patientId: 1,
+  testType: 1,
+  status: 1,
+});
 
 const Labtest = models.Labtest || model("Labtest", LabtestSchema);
 

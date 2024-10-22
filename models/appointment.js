@@ -60,7 +60,14 @@ const AppointmentSchema = new Schema(
 );
 
 AppointmentSchema.index(
-  { doctorId: 1, appointmentDate: 1, appointmentTime: 1 },
+  {
+    doctorId: 1,
+    appointmentId: 1,
+    patientId: 1,
+    appointmentDate: 1,
+    appointmentTime: 1,
+    status: 1,
+  },
   { unique: true }
 );
 
