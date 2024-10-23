@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 
-const API_URL = "http://localhost:3000/api/availability/1002";
-
 const allDays = [
   "Sunday",
   "Monday",
@@ -19,6 +17,8 @@ const allSlots = Array.from(
 );
 
 const Availability = () => {
+  const doctorId = JSON.parse(localStorage.getItem("doctor")).doctorId;
+  const API_URL = `http://localhost:3000/api/availability/${doctorId}`;
   const [availabilityData, setAvailabilityData] = useState({
     availableDays: [],
     availableSlots: [],

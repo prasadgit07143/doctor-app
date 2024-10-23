@@ -39,7 +39,7 @@ const PrescriptionForm = ({ appointmentId }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/prescriptions", {
+      const response = await fetch("/api/prescriptions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const PrescriptionForm = ({ appointmentId }) => {
 
   const fetchData = useCallback(async () => {
     const [appointmentResponse] = await Promise.all([
-      fetch("http://localhost:3000/api/appointments/" + appointmentId, {
+      fetch("/api/appointments/" + appointmentId, {
         cache: "no-store",
       }),
     ]);
@@ -90,7 +90,7 @@ const PrescriptionForm = ({ appointmentId }) => {
 
     if (appointment && appointment.patientId) {
       const patientResponse = await fetch(
-        `http://localhost:3000/api/patients/${appointment.patientId}`
+        `/api/patients/${appointment.patientId}`
       );
       const patientData = await patientResponse.json();
       setPatient(patientData);

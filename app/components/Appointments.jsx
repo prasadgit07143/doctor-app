@@ -15,7 +15,7 @@ const AppointmentCard = React.memo(
         setIsUpdating(true);
         try {
           const response = await fetch(
-            `http://localhost:3000/api/appointments/${appointment.appointmentId}`,
+            `/api/appointments/${appointment.appointmentId}`,
             {
               method: "PUT",
               headers: {
@@ -108,16 +108,13 @@ const Appointments = () => {
   const updateAppointmentStatusInBackend = useCallback(
     async (appointmentId, newStatus) => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/appointments/${appointmentId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ status: newStatus }),
-          }
-        );
+        const response = await fetch(`/api/appointments/${appointmentId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        });
 
         if (!response.ok) {
           console.error("Failed to update appointment status in backend");
@@ -155,10 +152,10 @@ const Appointments = () => {
   const fetchData = useCallback(async () => {
     const doctorId = JSON.parse(localStorage.getItem("doctor")).doctorId;
     const [appointmentsResponse, patientsResponse] = await Promise.all([
-      fetch(`http://localhost:3000/api/appointments/byDoctor/${doctorId}`, {
+      fetch(`/api/appointments/byDoctor/${doctorId}`, {
         cache: "no-store",
       }),
-      fetch("http://localhost:3000/api/patients", { cache: "no-store" }),
+      fetch("/api/patients", { cache: "no-store" }),
     ]);
 
     const [appointments, patients] = await Promise.all([

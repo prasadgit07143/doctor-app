@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import PatientInfo from "./PatientInfo";
+import PrescriptionInfo from "./PrescriptionInfo";
 
 async function fetchData(url) {
   const response = await fetch(url, { cache: "no-store" });
@@ -9,12 +10,12 @@ async function fetchData(url) {
 
 const Prescription = async ({ appointmentId }) => {
   const [prescriptionsData, appointmentData] = await Promise.all([
-    fetchData("http://localhost:3000/api/prescriptions"),
-    fetchData(`http://localhost:3000/api/appointments/${appointmentId}`),
+    fetchData("/api/prescriptions"),
+    fetchData(`/api/appointments/${appointmentId}`),
   ]);
 
   const patientData = await fetchData(
-    `http://localhost:3000/api/patients/${appointmentData.patientId}`
+    `/api/patients/${appointmentData.patientId}`
   );
 
   const prescriptionList = [];
@@ -50,74 +51,12 @@ const Prescription = async ({ appointmentId }) => {
           <PrescriptionInfo
             key={prescription.prescriptionId}
             currentPrescription={prescription}
+            displayHeading={false}
           />
         ))
       )}
     </section>
   );
 };
-
-const PrescriptionInfo = ({ currentPrescription }) => (
-  <div className="prescription-details-wrapper">
-    <h1 className="text-3xl mb-5 font-semibold mt-10">
-      Prescription Info{" "}
-      <span className="text-base text-gray-500">
-        {"( "}
-        {currentPrescription.date.substring(
-          0,
-          currentPrescription.date.indexOf("T")
-        ) + " )"}
-      </span>
-    </h1>
-    <div className="prescription-details">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              {[
-                "Medicine Name",
-                "Official Name",
-                "Dosage",
-                "Frequency",
-                "Duration",
-              ].map((header) => (
-                <th key={header} scope="col" className="px-6 py-3">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentPrescription ? (
-              currentPrescription.medicines.map((medicine, index) => (
-                <tr
-                  key={index}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {medicine.name}
-                  </th>
-                  <td className="px-6 py-4">{medicine.fullName}</td>
-                  <td className="px-6 py-4">{medicine.dosage}</td>
-                  <td className="px-6 py-4">{medicine.frequency}</td>
-                  <td className="px-6 py-4">{medicine.duration}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="px-6 py-4 text-center">
-                  No Prescription Available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-);
 
 export default Prescription;

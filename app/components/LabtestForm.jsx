@@ -49,7 +49,7 @@ const LabtestForm = ({ appointmentId }) => {
     try {
       const responses = await Promise.all(
         labtestData.map((data) =>
-          fetch("http://localhost:3000/api/labtests", {
+          fetch("/api/labtests", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

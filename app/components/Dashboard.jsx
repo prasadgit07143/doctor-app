@@ -12,10 +12,10 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const [appointmentsResponse, patientsResponse] = await Promise.all([
-          fetch(`http://localhost:3000/api/appointments/byDoctor/${doctorId}`, {
+          fetch(`/api/appointments/byDoctor/${doctorId}`, {
             cache: "no-store",
           }),
-          fetch("http://localhost:3000/api/patients", {
+          fetch("/api/patients", {
             cache: "no-store",
           }),
         ]);
