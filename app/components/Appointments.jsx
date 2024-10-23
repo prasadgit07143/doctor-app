@@ -153,8 +153,11 @@ const Appointments = () => {
   );
 
   const fetchData = useCallback(async () => {
+    const doctorId = JSON.parse(localStorage.getItem("doctor")).doctorId;
     const [appointmentsResponse, patientsResponse] = await Promise.all([
-      fetch("http://localhost:3000/api/appointments", { cache: "no-store" }),
+      fetch(`http://localhost:3000/api/appointments/byDoctor/${doctorId}`, {
+        cache: "no-store",
+      }),
       fetch("http://localhost:3000/api/patients", { cache: "no-store" }),
     ]);
 
