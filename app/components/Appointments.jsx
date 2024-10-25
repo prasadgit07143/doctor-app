@@ -100,10 +100,10 @@ const AppointmentCard = React.memo(
   }
 );
 
-const Appointments = () => {
+const Appointments = ({ dashboard = false }) => {
   const [appointmentsData, setAppointmentsData] = useState([]);
   const [patientsData, setPatientsData] = useState([]);
-  const [statusFilter, setStatusFilter] = useState("Pending");
+  const [statusFilter, setStatusFilter] = useState("All");
 
   const updateAppointmentStatusInBackend = useCallback(
     async (appointmentId, newStatus) => {
@@ -185,7 +185,9 @@ const Appointments = () => {
   const filteredAppointments = useMemo(() => {
     const uniqueAppointments = new Map();
     appointmentsData
-      .filter((appointment) => appointment.status === statusFilter)
+      .filter((appointment) =>
+        statusFilter === "All" ? true : appointment.status === statusFilter
+      )
       .forEach((appointment) =>
         uniqueAppointments.set(appointment.appointmentId, appointment)
       );
@@ -193,6 +195,20 @@ const Appointments = () => {
   }, [appointmentsData, statusFilter]);
 
   const patientsWithAppointments = useMemo(() => {
+    if (dashboard)
+      return filteredAppointments
+        .map((appointment) => ({
+          patient: patientsData.find(
+            (patient) => patient.patientId === appointment.patientId
+          ),
+          appointment,
+        }))
+        .sort(
+          (a, b) =>
+            new Date(b.appointment.appointmentDate) -
+            new Date(a.appointment.appointmentDate)
+        )
+        .slice(0, 6);
     return filteredAppointments
       .map((appointment) => ({
         patient: patientsData.find(
@@ -202,13 +218,18 @@ const Appointments = () => {
       }))
       .sort(
         (a, b) =>
-          new Date(a.appointment.appointmentDate) -
-          new Date(b.appointment.appointmentDate)
+          new Date(b.appointment.appointmentDate) -
+          new Date(a.appointment.appointmentDate)
       );
   }, [filteredAppointments, patientsData]);
 
   return (
-    <section className="appointments-section ml-[300px] mt-[100px] min-h-[100vh] mr-10">
+    <section
+      className={
+        !dashboard &&
+        "appointments-section ml-[300px] mt-[100px] min-h-[100vh] mr-10"
+      }
+    >
       <div className="appointments-wrapper">
         <h1 className="text-3xl mb-5 font-semibold">Appointments</h1>
         <select
@@ -218,6 +239,7 @@ const Appointments = () => {
           onChange={handleStatusChange}
           value={statusFilter}
         >
+          <option value="All">All</option>
           <option value="Pending">Pending</option>
           <option value="Cancelled">Cancelled</option>
           <option value="Completed">Completed</option>
@@ -243,6 +265,14 @@ const Appointments = () => {
             </Link>
           ))}
         </div>
+        {dashboard && (
+          <a
+            className="mt-6 inline-flex items-center px-7 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-sm hover:bg-blue-800 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50"
+            href="/doctors/home/appointments"
+          >
+            View All
+          </a>
+        )}
       </div>
     </section>
   );

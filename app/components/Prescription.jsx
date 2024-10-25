@@ -10,12 +10,12 @@ async function fetchData(url) {
 
 const Prescription = async ({ appointmentId }) => {
   const [prescriptionsData, appointmentData] = await Promise.all([
-    fetchData("/api/prescriptions"),
-    fetchData(`/api/appointments/${appointmentId}`),
+    fetchData("http://localhost:3000/api/prescriptions"),
+    fetchData(`http://localhost:3000/api/appointments/${appointmentId}`),
   ]);
 
   const patientData = await fetchData(
-    `/api/patients/${appointmentData.patientId}`
+    `http://localhost:3000/api/patients/${appointmentData.patientId}`
   );
 
   const prescriptionList = [];
